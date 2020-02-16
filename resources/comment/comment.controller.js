@@ -3,8 +3,8 @@ var httpStatusCodes = require('http-status-codes');
 
 exports.getCommentsForPost = async (req, res) => {
   try {
-    const posts = await commentService.getCommentsForPost(req.query.postId);
-    return res.status(httpStatusCodes.OK).json({ posts });
+    const comments = await commentService.getCommentsForPost(req.query.postId);
+    return res.status(httpStatusCodes.OK).json({ comments });
   } catch (err) {
     return res.status(httpStatusCodes.BAD_REQUEST).json({
       error: err.message

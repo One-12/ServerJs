@@ -2,13 +2,16 @@ var postSchema = require("./post.entity");
 var queueService = require("../queue/queue.service");
 var mongoose = require('mongoose');
 var config = require("../../config.json");
+var mapper = require('object-mapper');
+var postProfile = require('./post.profile');
 
 exports.getPosts = async function(start, limit) {
   const posts = await postSchema
     .find({})
     .skip(start)
     .limit(limit);
-  return posts;
+
+  return mapper(posts, postProfile.posts);
 };
 
 exports.getPostById = async function(postId) {
@@ -24,7 +27,7 @@ exports.getPostById = async function(postId) {
     { $match: { _id: mongoose.Types.ObjectId(postId) } }
   ]);
 
-  return result;
+  return mapper(result, postProfile.postByIdMap);
 };
 
 exports.getPostByIds = async function(postIds) {
