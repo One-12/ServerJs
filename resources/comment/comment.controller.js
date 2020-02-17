@@ -15,6 +15,8 @@ exports.getCommentsForPost = async (req, res) => {
 exports.createComment = async (req, res) => {
   try {
     const createCommentRequest = req.body;
+    console.log(createCommentRequest);
+    
     const createdComment = await commentService.addComment(
       createCommentRequest
     );

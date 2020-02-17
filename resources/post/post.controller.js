@@ -76,7 +76,7 @@ exports.createFakePosts = async (req, res) => {
             userName: faker.internet.userName()
           },
           postedOn: faker.date.past(),
-          tags: this.generateTags(),
+          tags: generateTags(),
           type: faker.internet.domainName(),
           views: Math.random()
         };

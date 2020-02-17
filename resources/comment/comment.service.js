@@ -6,7 +6,7 @@ exports.getCommentsForPost = async postId => {
   return comments;
 };
 
-exports.addComment = async addCommentRequest => {
+exports.addComment = async comment => {
   const validPromise = await addCommentValidator.validate(comment);
   const isInValid = validPromise.some(isValid => !isValid);
 
@@ -14,6 +14,9 @@ exports.addComment = async addCommentRequest => {
     throw new Error("Validation failed for creating the comment");
   }
 
+  console.log("valid request");
   const createdComment = await commentSchema.create(comment);
+
+  console.log("valid comment created");
   return createdComment;
 };

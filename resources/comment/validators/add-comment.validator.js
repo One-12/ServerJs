@@ -14,7 +14,9 @@ var validateIsParent = async function(parentId) {
   }
 
   var parentComment = await commentSchema.findById(parentId);
-  return !(parentComment && parentComment.parentId);
+  
+  console.log('parentCommentValidation', (parentComment && !parentComment.parentId));
+  return (parentComment && !parentComment.parentId);
 }
 
 var validatePost = async function(postId) {
