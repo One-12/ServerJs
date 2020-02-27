@@ -44,6 +44,6 @@ exports.createPost = async function(postRequest) {
 var pushTags = function(postRequest) {
   const tags = postRequest.tags;
   if (tags && tags.length > 0) {
-    queueService.produce(config.job.tagPool);
+    queueService.produce(config.job.tagPool, tags);
   }
 };
