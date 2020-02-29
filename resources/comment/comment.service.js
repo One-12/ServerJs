@@ -19,21 +19,17 @@ const commentsService = {
 };
 
 var processComment = async comment => {
-  console.log("valid request");
 
   const isReply = comment.parentId;
-
+  var createdComment = {};
   if (isReply) {
     const reply = { content: comment.content };
-    await commentSchema.findOneAndUpdate(
+    createdComment = await commentSchema.findOneAndUpdate(
       { _id: comment.parentId },
       { $push: { replies: reply } }
     );
   } else {
-    const createdComment = await commentSchema.create(comment);
-
-    console.log("valid comment created");
-    return createdComment;
+    createdComment = await commentSchema.create(comment);
   }
 
   await postSchema.findOneAndUpdate(
@@ -41,6 +37,8 @@ var processComment = async comment => {
     { $inc: { commentsCount: 1 } },
     { new: true }
   );
+
+  return createdComment;
 };
 
 module.exports = commentsService;
