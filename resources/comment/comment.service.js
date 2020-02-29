@@ -1,4 +1,5 @@
 var commentSchema = require("./comment.entity");
+var postSchema = require("../post/post.entity");
 var addCommentValidator = require("./validators/add-comment.validator");
 
 const commentsService = {
@@ -8,19 +9,38 @@ const commentsService = {
   },
 
   addComment: async comment => {
-    const validPromise = await addCommentValidator.validate(comment);
-    const isInValid = validPromise.some(isValid => !isValid);
+    addCommentValidator
+      .validate(comment)
+      .then(async value => await processComment(comment))
+      .catch(reason => {
+        throw new Error(reason);
+      });
+  }
+};
 
-    if (isInValid) {
-      throw new Error("Validation failed for creating the comment");
-    }
+var processComment = async comment => {
+  console.log("valid request");
 
-    console.log("valid request");
+  const isReply = comment.parentId;
+
+  if (isReply) {
+    const reply = { content: comment.content };
+    await commentSchema.findOneAndUpdate(
+      { _id: comment.parentId },
+      { $push: { replies: reply } }
+    );
+  } else {
     const createdComment = await commentSchema.create(comment);
 
     console.log("valid comment created");
     return createdComment;
   }
+
+  await postSchema.findOneAndUpdate(
+    { _id: comment.postId },
+    { $inc: { commentsCount: 1 } },
+    { new: true }
+  );
 };
 
 module.exports = commentsService;

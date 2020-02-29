@@ -1,29 +1,34 @@
-var postSchema = require('../../post/post.entity');
-var commentSchema = require('../comment.entity');
+var postSchema = require("../../post/post.entity");
+var commentSchema = require("../comment.entity");
 
-exports.validate = async function(commentRequest){
-  const parentValidation = validateIsParent(commentRequest.parentId);
+exports.validate = async function(commentRequest) {
+  const parentValidation = validateIsParent(
+    commentRequest.postId,
+    commentRequest.parentId
+  );
   const postValidation = validatePost(commentRequest.postId);
-
   return await Promise.all([parentValidation, postValidation]);
-}
+};
 
-var validateIsParent = async function(parentId) {
+var validateIsParent = async function(postId, parentId) {
   if (!parentId) {
-    return Promise.resolve(true);
+    return Promise.resolve("valid comment");
   }
-
   var parentComment = await commentSchema.findById(parentId);
-  
-  console.log('parentCommentValidation', (parentComment && !parentComment.parentId));
-  return (parentComment && !parentComment.parentId);
-}
+  if (parentComment && parentComment.postId == postId) {
+    return Promise.resolve("valid comment");
+  }
+  return Promise.reject("invalid comment reply or invalid post reply");
+};
 
 var validatePost = async function(postId) {
   if (!postId) {
-    return Promise.resolve(false);
+    return Promise.reject("postId is mandatory to create a comment");
   }
 
   var post = await postSchema.findById(postId);
-  return !!post;
-}
+  if (!!post) {
+    return Promise.resolve("valid comment");
+  }
+  return Promise.reject("post not found");
+};

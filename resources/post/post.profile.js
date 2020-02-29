@@ -13,7 +13,10 @@ const postProfile = {
     "comments[]._id": "comments[].id",
     "comments[].postId": "comments[].postId",
     "comments[].content": "comments[].content",
-    "comments[].likesCount": "comments[].likesCount"
+    "comments[].likesCount": "comments[].likesCount",
+    "comments[].replies[]._id": "comments[].replies[].id",
+    "comments[].replies[].content": "comments[].replies[].content",
+    "comments[].replies[].likesCount": "comments[].replies[].likesCount",
   },
 
   posts: {
