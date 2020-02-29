@@ -9,7 +9,7 @@ const commentsService = {
   },
 
   addComment: async comment => {
-    addCommentValidator
+    await addCommentValidator
       .validate(comment)
       .then(async value => await processComment(comment))
       .catch(reason => {
