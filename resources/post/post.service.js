@@ -40,6 +40,13 @@ const postService = {
     const createdPost = await postSchema.create(postRequest);
     pushTags(postRequest);
     return createdPost;
+  },
+
+  likePost: async likeRequest => {
+    await postSchema.findOneAndUpdate(
+      { _id: likeRequest.id },
+      { $inc: { likesCount: 1 } }
+    );
   }
 };
 
