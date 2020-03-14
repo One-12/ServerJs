@@ -1,11 +1,13 @@
 var commentSchema = require("./comment.entity");
 var postSchema = require("../post/post.entity");
 var addCommentValidator = require("./validators/add-comment.validator");
+var commentProfile = require('./comment.profile');
+var mapper = require("object-mapper");
 
 const commentsService = {
   getCommentsForPost: async postId => {
     const comments = await commentSchema.find({ postId: postId });
-    return comments;
+    return mapper(comments, commentProfile.commentMap);
   },
 
   addComment: async comment => {

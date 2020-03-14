@@ -9,8 +9,8 @@ const postService = {
   getPosts: async function(start, limit) {
     const posts = await postSchema
       .find({})
-      .skip(start)
-      .limit(limit);
+      .skip(parseInt(start))
+      .limit(parseInt(limit));
 
     return mapper(posts, postProfile.posts);
   },
@@ -33,7 +33,7 @@ const postService = {
 
   getPostByIds: async function(postIds) {
     const posts = await postSchema.find({ _id: { $in: postIds } });
-    return posts;
+    return mapper(posts, postProfile.posts);
   },
 
   createPost: async function(postRequest) {
