@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "nodemon --config nodemon.json"
+    "start:dev": "nodemon --config nodemon.json",
+    "test": "mocha ./tests/**/*.spec.js --delay"
   },
   "dependencies": {
     "bull": "^3.13.0",
@@ -21,6 +22,9 @@
   },
   "devDependencies": {
     "express-swagger-generator": "^1.1.17",
-    "nodemon": "^2.0.2"
+    "mocha": "^7.1.0",
+    "mongo-unit": "^2.0.0",
+    "nodemon": "^2.0.2",
+    "chai": "^4.2.0"
   }
 }
