@@ -1,19 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var connection = require('./connection');
-var swaggerOptions = require('./swagger.option');
+let createError = require('http-errors');
+let express = require('express');
+let cors = require('cors');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let connection = require('./connection');
+let swaggerOptions = require('./swagger.option');
 
-var tagRouter = require('./resources/tag/tag.route');
-var postRouter = require('./resources/post/post.route');
-var likeRouter = require('./resources/like/like.route');
-var commentRouter = require('./resources/comment/comment.route');
+let tagRouter = require('./resources/tag/tag.route');
+let postRouter = require('./resources/post/post.route');
+let likeRouter = require('./resources/like/like.route');
+let commentRouter = require('./resources/comment/comment.route');
 
-var app = express();
+let app = express();
 
 const expressSwagger = require('express-swagger-generator')(app);
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
