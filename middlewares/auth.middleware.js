@@ -7,7 +7,7 @@ const client = new OAuth2Client(
   googleConfig.google_auth.clientSecret
 );
 
-async function verify(req) {
+async function verify(req, res) {
   const idToken = getTokenFromHeader(req);
   const ticket = await client.verifyIdToken({
     idToken: idToken,
@@ -17,18 +17,23 @@ async function verify(req) {
   return payload;
 }
 
-const getTokenFromHeader = (req) => {
+const getTokenFromHeader = (req, res) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.split(" ")[0] === "Bearer"
   ) {
     return req.headers.authorization.split(" ")[1];
   }
+  else{
+    res.status(httpStatusCodes.UNAUTHORIZED).json({
+      error: 'Token missing'
+    })
+  }
 };
 
 module.exports = async (req, res, next) => {
   try {
-    var result = await verify(req);
+    var result = await verify(req, res);
     req.userId = result["sub"];
     console.log(req.userId);
     return next();
