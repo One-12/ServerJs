@@ -11,6 +11,8 @@ let postRouter = require('./resources/post/post.route');
 let likeRouter = require('./resources/like/like.route');
 let commentRouter = require('./resources/comment/comment.route');
 
+let authorize = require('./middlewares/auth.middleware');
+
 let app = express();
 
 const expressSwagger = require('express-swagger-generator')(app);
