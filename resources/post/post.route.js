@@ -1,6 +1,6 @@
-var express = require('express');
-var postController = require('./post.controller');
-
+var express = require("express");
+var postController = require("./post.controller");
+const isAuthorized = require("../../middlewares/firebase.middleware");
 var router = express.Router();
 
 /**
@@ -31,7 +31,7 @@ var router = express.Router();
  * @property {Array.<Comment>} comments - comments
  */
 
- /**
+/**
  * @typedef Post
  * @property {string} id - post id
  * @property {integer} views - view count
@@ -44,7 +44,7 @@ var router = express.Router();
  * @property {string} type - post type
  */
 
-  /**
+/**
  * @typedef PostRequest
  * @property {string} content.required - post content
  * @property {string} title.required - post title
@@ -61,7 +61,7 @@ var router = express.Router();
  * @returns {Array.<Post>} 200 - An array of posts
  * @returns {Error}  default - Unexpected error
  */
-router.get('/', postController.getPosts);
+router.get("/", postController.getPosts);
 
 /**
  * Get post for the given id
@@ -71,8 +71,7 @@ router.get('/', postController.getPosts);
  * @returns {PostDetail.model} 200 - Post Detail
  * @returns {Error}  default - Unexpected error
  */
-router.get('/:postId', postController.getPostById);
-
+router.get("/:postId", postController.getPostById);
 
 /**
  * Get posts for the given post ids.
@@ -82,7 +81,7 @@ router.get('/:postId', postController.getPostById);
  * @returns {Array.<Post>} 200 - An array of posts
  * @returns {Error}  default - Unexpected error
  */
-router.put('/', postController.getPostsByIds);
+router.put("/", postController.getPostsByIds);
 
 /**
  * Create new post.
@@ -92,8 +91,8 @@ router.put('/', postController.getPostsByIds);
  * @returns {Post.model} 200 - created post
  * @returns {Error}  default - Unexpected error
  */
-router.post('/', postController.createNewPost);
-router.post('/_fake', postController.createFakePosts);
-router.get('/isAlive', (req, res) => res.status(201).end());
+router.post("/", isAuthorized, postController.createNewPost);
+router.post("/_fake", postController.createFakePosts);
+router.get("/isAlive", (req, res) => res.status(201).end());
 
 module.exports = router;
