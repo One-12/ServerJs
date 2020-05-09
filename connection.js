@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+var db = require('./config.json').mongo.uri;
 
-mongoose.set('useFindAndModify', false);
-mongoose.connect("mongodb://root:rootroot1@ds024548.mlab.com:24548/one12");
+mongoose
+  .connect(db, { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("db connected"))
+  .catch((err) => console.log(err));

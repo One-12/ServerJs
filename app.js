@@ -13,8 +13,6 @@ let commentRouter = require("./resources/comment/comment.route");
 
 const admin = require("firebase-admin");
 
-let authorize = require("./middlewares/auth.middleware");
-
 const serviceAccount = require("./firebase_config.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

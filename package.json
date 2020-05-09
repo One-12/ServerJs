@@ -15,7 +15,6 @@
     "express": "~4.16.1",
     "faker": "^4.1.0",
     "firebase-admin": "^8.12.1",
-    "google-auth-library": "^6.0.0",
     "http-errors": "~1.6.3",
     "http-status-codes": "^1.4.0",
     "jade": "~1.11.0",
