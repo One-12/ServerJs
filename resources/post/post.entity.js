@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var postSchema = {
   title: { type: String, required: true },
@@ -9,7 +9,8 @@ var postSchema = {
   tags: { type: [String] },
   postedOn: { type: Date, default: Date.now },
   commentsCount: { type: Number, default: 0 },
-  likesCount: { type: Number, default: 0 }
-}
+  likesCount: { type: Number, default: 0 },
+  userId: { type: String, required: true },
+};
 
-module.exports	= mongoose.model('posts', postSchema);
+module.exports = mongoose.model("posts", postSchema);

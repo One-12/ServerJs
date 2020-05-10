@@ -20,6 +20,7 @@ const isAuthorized = function (req, res, next) {
       .auth()
       .verifyIdToken(token)
       .then((data) => {
+        req.userId = data.uid;
         console.log('data', data);
         next();
       })

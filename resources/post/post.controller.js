@@ -46,6 +46,7 @@ var postService = require("./post.service"),
             error: paramMissingError
           });
         }
+        posts.userId = req.userId;
         const createdPost = await postService.createPost(posts);
         return res.status(httpStatusCodes.CREATED).json(createdPost);
       } catch (err) {
@@ -80,7 +81,8 @@ var postService = require("./post.service"),
               postedOn: faker.date.past(),
               tags: generateTags(),
               type: faker.internet.domainName(),
-              views: Math.random()
+              views: Math.random(),
+              userId: faker.internet.userName()
             }
             await postService.createPost(post);
           }
