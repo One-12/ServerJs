@@ -10,6 +10,7 @@ let tagRouter = require("./resources/tag/tag.route");
 let postRouter = require("./resources/post/post.route");
 let likeRouter = require("./resources/like/like.route");
 let commentRouter = require("./resources/comment/comment.route");
+let userRouter = require('./resources/user/user.route');
 
 const admin = require("firebase-admin");
 
@@ -33,6 +34,7 @@ app.use("/api/tags", tagRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/likes", likeRouter);
+app.use("/api/users", userRouter);
 
 expressSwagger(swaggerOptions);
 module.exports = app;

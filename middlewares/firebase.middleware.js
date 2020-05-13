@@ -1,5 +1,7 @@
 const admin = require("firebase-admin");
 const httpStatusCodes = require("http-status-codes");
+const users = require("../resources/user/user.entity");
+const { create } = require("../resources/user/user.entity");
 
 const getTokenFromHeader = (req, res) => {
   if (
@@ -13,23 +15,26 @@ const getTokenFromHeader = (req, res) => {
     });
   }
 };
-const isAuthorized = function (req, res, next) {
+const isAuthorized = async (req, res, next) => {
   const token = getTokenFromHeader(req, res);
+  const data = {};
   if (token) {
-    admin
-      .auth()
-      .verifyIdToken(token)
-      .then((data) => {
-        req.userId = data.uid;
-        console.log('data', data);
-        next();
-      })
-      .catch((err) => {
-        console.log('token thappu', err);
-        res.status(403).send("Unauthorized");
+    try {
+      data = await admin.auth().verifyIdToken(token);
+    } catch (err) {
+      res.status(403).send("Unauthorized");
+    }
+    var user = await users.findOne({ uid: data.uid });
+    if (user) {
+      req.user = user;
+    } else {
+      var createdUser = await users.create({
+        uid: data.uid,
+        email: data.email,
       });
-  } else {
-    res.status(403).send("Unauthorized");
+      req.user = createdUser;
+    }
+    next();
   }
 };
 
