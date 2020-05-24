@@ -53,7 +53,7 @@ class UploadService {
    Validates Upload Post Request Input
    *
    * @param {*} req
-   * @return {Promise<Error>}
+   * @return {Promise<void>}
    * @memberof UploadService
    */
   _validateUploadPostRequest(req) {
