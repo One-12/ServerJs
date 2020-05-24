@@ -61,7 +61,7 @@ var router = express.Router();
  * @returns {Array.<Post>} 200 - An array of posts
  * @returns {Error}  default - Unexpected error
  */
-router.get("/", postController.getPosts);
+router.get("/", isAuthorized, postController.getPosts);
 
 /**
  * Get post for the given id
