@@ -13,7 +13,6 @@ const ACCOUNT_ACCESS_KEY = '43Unob3jBoZmMwwOb6qzuGbf05TcGw/P0DNlSOK8QA9se+UyE6Wm
 class UploadService {
   /**
    * Creates an instance of UploadService.
-   *
    * @memberof UploadService
    */
   constructor() {
@@ -28,18 +27,49 @@ class UploadService {
    * Uploads content so Azure Blob Storage.
    *
    * @param {*} req
-   * @param {*} res
    * @memberof UploadService
    */
-  async upload(req, res) {
-    const userId = req.userId;
-    const fileName = shortid.generate() + '_' + _.kebabCase(req.files.photo.name);
-
-    const createContainerResponse = await this._blobServiceClient.createContainer(userId);
-    if (createContainerResponse) {
-      const uploadBlobResponse = await createContainerResponse.upload(req.body, req.body.length);
-      console.log(uploadBlobResponse);
+  async uploadPost(req) {
+    try {
+      await this._validateUploadPostRequest(req);
+    } catch (err) {
+      return Promise.reject(err);
     }
+
+    const userId = req.user.uid;
+    const file = req.files.file;
+    const fileName = shortid.generate() + '_' + _.kebabCase(file.name);
+    let containerClient = this._blobServiceClient.getContainerClient(userId);
+
+    if (!(await containerClient.exists())) {
+      containerClient = (await this._blobServiceClient.createContainer(userId, { access: 'blob' })).containerClient;
+    }
+
+    const uploadBlobResponse = await containerClient.uploadBlockBlob(fileName, file.data, file.size);
+    return Promise.resolve({ data: uploadBlobResponse.blockBlobClient.url });
+  }
+
+  /**
+   Validates Upload Post Request Input
+   *
+   * @param {*} req
+   * @return {Promise<Error>}
+   * @memberof UploadService
+   */
+  _validateUploadPostRequest(req) {
+    if (!req.user || !req.user.uid) {
+      return Promise.reject(new Error('UPLOAD_USERID_MANDATORY'));
+    }
+
+    if (!req.files || !req.files.file) {
+      return Promise.reject(new Error('UPLOAD_FILE_MANDATORY'));
+    }
+
+    if (req.files.file.size / 1024 / 1024 > 5) {
+      return Promise.reject(new Error('UPLOAD_FILE_SIZEGREATERTHAN5MB'));
+    }
+
+    return Promise.resolve();
   }
 }
 
