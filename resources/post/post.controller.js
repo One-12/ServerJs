@@ -6,7 +6,7 @@ var postService = require("./post.service"),
   {
     getPosts : async function(req, res) {
       try {
-        const posts = await postService.getPosts(req.query.start, req.query.limit);
+        const posts = await postService.getPosts(req);
         return res.status(httpStatusCodes.OK).json(posts);
       } catch (err) {
         return res.status(httpStatusCodes.BAD_REQUEST).json({
