@@ -1,5 +1,6 @@
 const _ = require('lodash/string');
 const shortid = require('shortid');
+const constants = require('./constants');
 const { BlobServiceClient, StorageSharedKeyCredential } = require('@azure/storage-blob');
 
 const STORAGE_ACCOUNT_NAME = 'one12storage';
@@ -38,7 +39,8 @@ class UploadService {
 
     const userId = req.user.uid;
     const file = req.files.file;
-    const fileName = shortid.generate() + '_' + _.kebabCase(file.name);
+    const fileName = `${shortid.generate()}-${_.kebabCase(file.name)}.${file.name.split('.').pop().toLowerCase()}`;
+
     let containerClient = this._blobServiceClient.getContainerClient(userId);
 
     if (!(await containerClient.exists())) {
@@ -58,15 +60,15 @@ class UploadService {
    */
   _validateUploadPostRequest(req) {
     if (!req.user || !req.user.uid) {
-      return Promise.reject(new Error('UPLOAD_USERID_MANDATORY'));
+      return Promise.reject(new Error(constants.ERROR_MESSAGES.UPLOAD_USERID_MANDATORY));
     }
 
     if (!req.files || !req.files.file) {
-      return Promise.reject(new Error('UPLOAD_FILE_MANDATORY'));
+      return Promise.reject(new Error(constants.ERROR_MESSAGES.UPLOAD_FILE_MANDATORY));
     }
 
     if (req.files.file.size / 1024 / 1024 > 5) {
-      return Promise.reject(new Error('UPLOAD_FILE_SIZEGREATERTHAN5MB'));
+      return Promise.reject(new Error(constants.ERROR_MESSAGES.UPLOAD_FILE_SIZEGREATERTHAN5MB));
     }
 
     return Promise.resolve();
