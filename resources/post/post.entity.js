@@ -1,8 +1,14 @@
-var mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var postSchema = {
+const postSchema = {
   title: { type: String, required: true },
   content: { type: String, required: true },
+  resImages: [
+    {
+      size: { type: Number },
+      content: { type: String },
+    },
+  ],
   views: { type: Number, default: 0 },
   points: { type: Number, default: 0 },
   type: { type: String, required: true },
@@ -13,4 +19,4 @@ var postSchema = {
   userId: { type: String, required: true },
 };
 
-module.exports = mongoose.model("posts", postSchema);
+module.exports = mongoose.model('posts', postSchema);

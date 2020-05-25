@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var db = require('./config.json').mongo.uri;
+const mongoose = require('mongoose');
+const db = require('./config.json').mongo.uri;
 
 mongoose
   .connect(db, { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true })

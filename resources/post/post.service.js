@@ -1,15 +1,13 @@
-var postSchema = require("./post.entity");
-var queueService = require("../queue/queue.service");
-var mongoose = require("mongoose");
-var config = require("../../config.json");
-var mapper = require("object-mapper");
-var postProfile = require("./post.profile");
+const postSchema = require('./post.entity');
+const queueService = require('../queue/queue.service');
+const mongoose = require('mongoose');
+const config = require('../../config.json');
+const mapper = require('object-mapper');
+const postProfile = require('./post.profile');
 
 const postService = {
   getPosts: async function (req) {
     const { tag, page, start, limit } = req.query;
-    
-    var posts = [];
     if (tag) {
       return await getPostsForTag(tag, start, limit);
     }
@@ -25,15 +23,15 @@ const postService = {
     const result = await postSchema.aggregate([
       {
         $lookup: {
-          from: "comments",
-          localField: "_id",
-          foreignField: "postId",
-          as: "comments",
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'postId',
+          as: 'comments',
         },
       },
+      // eslint-disable-next-line new-cap
       { $match: { _id: mongoose.Types.ObjectId(postId) } },
     ]);
-
     return mapper(result, postProfile.postByIdMap);
   },
 
@@ -45,34 +43,36 @@ const postService = {
   createPost: async function (postRequest) {
     const createdPost = await postSchema.create(postRequest);
     pushTags(postRequest);
+    pushImageResize(createdPost);
     return createdPost;
   },
 
   likePost: async (likeRequest) => {
-    await postSchema.findOneAndUpdate(
-      { _id: likeRequest.id },
-      { $inc: { likesCount: 1 } }
-    );
+    await postSchema.findOneAndUpdate({ _id: likeRequest.id }, { $inc: { likesCount: 1 } });
   },
 };
 
-var pushTags = function (postRequest) {
+pushTags = function (postRequest) {
   const tags = postRequest.tags;
   if (tags && tags.length > 0) {
     queueService.produce(config.job.tagPool, tags);
   }
 };
 
-var getPostsForPage = async function (page, start, limit) {
-  const posts = await postSchema
-    .find({})
-    .skip(parseInt(start))
-    .limit(parseInt(limit));
+pushImageResize = function (postRequest) {
+  const postContent = postRequest.content;
+  if (postContent && postContent.length > 0) {
+    queueService.produce(config.job.uploadPool, { postId: postRequest._id });
+  }
+};
+
+getPostsForPage = async function (page, start, limit) {
+  const posts = await postSchema.find({}).skip(parseInt(start)).limit(parseInt(limit));
 
   return mapper(posts, postProfile.posts);
 };
 
-var getPostsFromFollowing = async function (following, start, limit) {
+getPostsFromFollowing = async function (following, start, limit) {
   const posts = await postSchema
     .find({ _id: { $in: following } })
     .skip(parseInt(start))
@@ -80,11 +80,8 @@ var getPostsFromFollowing = async function (following, start, limit) {
 
   return mapper(posts, postProfile.posts);
 };
-var getPostsForTag = async function (tag, start, limit) {
-  const posts = await postSchema
-    .find({ tags: tag })
-    .skip(parseInt(start))
-    .limit(parseInt(limit));
+getPostsForTag = async function (tag, start, limit) {
+  const posts = await postSchema.find({ tags: tag }).skip(parseInt(start)).limit(parseInt(limit));
 
   return mapper(posts, postProfile.posts);
 };
