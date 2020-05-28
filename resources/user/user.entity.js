@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var userSchema = {
+const userSchema = {
   uid: { type: String, required: true },
   followers: { type: [String], default: [] },
   following: { type: [String], default: [] },

@@ -1,4 +1,4 @@
-let options = {
+const options = {
   swaggerDefinition: {
       info: {
           description: 'This is a One12 server',
@@ -21,8 +21,8 @@ let options = {
           }
       }
   },
-  basedir: __dirname, //app absolute path
-  files: ['./resources/**/*.js'] //Path to the API handle folder
+  basedir: __dirname, // app absolute path
+  files: ['./resources/**/*.js'] // Path to the API handle folder
 };
 
 module.exports = options;

@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const mongoUnit = require("mongo-unit");
 const tagUT = require("../../resources/tag/tag.service");
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 describe("tags", () => {
   const tagData = {

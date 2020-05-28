@@ -1,7 +1,8 @@
-var express = require('express');
-var tagController = require('./tag.controller');
+const express = require('express');
+const tagController = require('./tag.controller');
 
-var router = express.Router();
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 /**
  * @route GET /tags Get Trending tags.

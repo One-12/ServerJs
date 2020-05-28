@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var commentSchema = {
+const commentSchema = {
   content: { type: String, required: true },
   likesCount: { type: Number, default: 0 },
   postId: { type: mongoose.Schema.Types.ObjectId },

@@ -1,8 +1,8 @@
-var commentSchema = require("./comment.entity");
-var postSchema = require("../post/post.entity");
-var addCommentValidator = require("./validators/add-comment.validator");
-var commentProfile = require('./comment.profile');
-var mapper = require("object-mapper");
+const commentSchema = require("./comment.entity");
+const postSchema = require("../post/post.entity");
+const addCommentValidator = require("./validators/add-comment.validator");
+const commentProfile = require('./comment.profile');
+const mapper = require("object-mapper");
 
 const commentsService = {
   getCommentsForPost: async postId => {
@@ -33,9 +33,9 @@ const commentsService = {
   }
 };
 
-var processComment = async comment => {
+processComment = async comment => {
   const isReply = comment.parentId;
-  var createdComment = {};
+  let createdComment = {};
   if (isReply) {
     const reply = { content: comment.content };
     createdComment = await commentSchema.findByIdAndUpdate(comment.parentId, {

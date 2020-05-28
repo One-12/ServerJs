@@ -1,7 +1,9 @@
-var express = require("express");
-var postController = require("./post.controller");
+const express = require("express");
+const postController = require("./post.controller");
 const isAuthorized = require("../../middlewares/firebase.middleware");
-var router = express.Router();
+
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 /**
  * @typedef Reply

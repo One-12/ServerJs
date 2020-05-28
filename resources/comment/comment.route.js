@@ -1,7 +1,8 @@
-var express = require('express');
-var commentController = require('./comment.controller');
+const express = require('express');
+const commentController = require('./comment.controller');
 
-var router = express.Router();
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 /**
  * @typedef Reply

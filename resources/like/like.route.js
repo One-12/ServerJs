@@ -1,7 +1,8 @@
-var express = require('express');
-var likeController = require('./like.controller');
+const express = require('express');
+const likeController = require('./like.controller');
 
-var router = express.Router();
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 /**
  * @typedef LikeRequest

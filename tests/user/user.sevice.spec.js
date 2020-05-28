@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const mongoUnit = require("mongo-unit");
 const userServiceUT = require("../../resources/user/user.service");
 const userSchema = require("../../resources/user/user.entity");
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 describe("users", () => {
   const userData = {
