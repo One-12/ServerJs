@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const swaggerOptions = require('./swagger.option');
 const fileUpload = require('express-fileupload');
+const compression = require('compression');
 
 require('./connection');
 
@@ -28,6 +29,7 @@ const app = express();
 const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(cors());
+app.use(compression());
 app.use(logger('dev'));
 app.use(fileUpload());
 app.use(express.json());
