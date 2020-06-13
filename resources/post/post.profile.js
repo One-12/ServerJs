@@ -31,7 +31,9 @@ const postProfile = {
     "[].content": "[].content",
     "[].title": "[].title",
     "[].postedOn": "[].postedOn",
-    "[].type": "[].type"
+    "[].type": "[].type",
+    "[].postedBy.uid": "[].postedBy.userId",
+    "[].postedBy.email": "[].postedBy.email",
   }
 };
 

@@ -15,6 +15,7 @@ const postService = {
   },
 
   getFollowingUserPosts: async (req) => {
+    const { start, limit } = req.query;
     const { following } = req.user;
     return await getPostsFromFollowing(following, start, limit);
   },
@@ -67,23 +68,38 @@ pushImageResize = function (postRequest) {
 };
 
 getPostsForPage = async function (page, start, limit) {
-  const posts = await postSchema.find({}).skip(parseInt(start)).limit(parseInt(limit));
-
+  const posts = await getPostsWithUserInfo({ $match: {} }, start, limit);
   return mapper(posts, postProfile.posts);
 };
 
 getPostsFromFollowing = async function (following, start, limit) {
+  const posts = await getPostsWithUserInfo({ $match: { userId: { $in: following } } }, start, limit);
+  return mapper(posts, postProfile.posts);
+};
+
+getPostsForTag = async function (tag, start, limit) {
+  const posts = await getPostsWithUserInfo({ $match: { tags: tag } }, start, limit);
+  return mapper(posts, postProfile.posts);
+};
+
+getPostsWithUserInfo = async function (matchPipeLine, start, limit) {
   const posts = await postSchema
-    .find({ _id: { $in: following } })
+    .aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: 'uid',
+          as: 'postedBy',
+        },
+      },
+      matchPipeLine,
+      { $unwind: '$postedBy' },
+    ])
     .skip(parseInt(start))
     .limit(parseInt(limit));
 
-  return mapper(posts, postProfile.posts);
-};
-getPostsForTag = async function (tag, start, limit) {
-  const posts = await postSchema.find({ tags: tag }).skip(parseInt(start)).limit(parseInt(limit));
-
-  return mapper(posts, postProfile.posts);
+  return posts;
 };
 
 module.exports = postService;
