@@ -14,6 +14,17 @@ const postController = {
     }
   },
 
+  getFollowingUserPosts: async (req,res) =>{
+    try {
+      const posts = await postService.getFollowingUserPosts(req);
+      return res.status(httpStatusCodes.OK).json(posts);
+    } catch (err) {
+      return res.status(httpStatusCodes.BAD_REQUEST).json({
+        error: err.message,
+      });
+    }
+  },
+
   getPostById: async (req, res) => {
     try {
       const post = await postService.getPostById(req.params.postId);

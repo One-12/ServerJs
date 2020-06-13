@@ -60,20 +60,33 @@ const router = express.Router();
  * @group Posts - Operations about Posts
  * @param {integer} start.query.required - start index
  * @param {integer} limit.query.required - limit
+ * @param {string} tag.query - 'tag' posts related to the tag.
+ * @param {string} tag.page - 'page' posts related to the page. 
  * @returns {Array.<Post>} 200 - An array of posts
  * @returns {Error}  default - Unexpected error
  */
-router.get("/", isAuthorized, postController.getPosts);
+router.get("/", postController.getPosts);
+
+/**
+ * Get user following posts
+ * @route GET /posts/following Get posts of following user.
+ * @group Posts - Operations about Posts
+ * @param {integer} start.query.required - start index
+ * @param {integer} limit.query.required - limit
+ * @returns {Array.<Post>} 200 - An array of posts
+ * @returns {Error}  default - Unexpected error
+ */
+router.get("/following", isAuthorized, postController.getFollowingUserPosts);
 
 /**
  * Get post for the given id
- * @route GET /posts/{postId} Get Post detail for the given id.
+ * @route GET /posts/byId/{postId} Get Post detail for the given id.
  * @group Posts - Operations about Posts
  * @param {string} postId.path.required - post id.
  * @returns {PostDetail.model} 200 - Post Detail
  * @returns {Error}  default - Unexpected error
  */
-router.get("/:postId", postController.getPostById);
+router.get("/byId/:postId", postController.getPostById);
 
 /**
  * Get posts for the given post ids.

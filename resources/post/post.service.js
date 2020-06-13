@@ -11,10 +11,10 @@ const postService = {
     if (tag) {
       return await getPostsForTag(tag, start, limit);
     }
-    if (page) {
-      return await getPostsForPage(page, start, limit);
-    }
+    return await getPostsForPage(page, start, limit);
+  },
 
+  getFollowingUserPosts: async (req) => {
     const { following } = req.user;
     return await getPostsFromFollowing(following, start, limit);
   },
