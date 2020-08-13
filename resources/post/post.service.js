@@ -1,9 +1,9 @@
-const postSchema = require('./post.entity');
-const queueService = require('../queue/queue.service');
 const mongoose = require('mongoose');
-const config = require('../../config.json');
 const mapper = require('object-mapper');
+const config = require('../../config.json');
+const postSchema = require('./post.entity');
 const postProfile = require('./post.profile');
+const queueService = require('../queue/queue.service');
 
 const postService = {
   getPosts: async function (req) {
@@ -30,8 +30,7 @@ const postService = {
           as: 'comments',
         },
       },
-      // eslint-disable-next-line new-cap
-      { $match: { _id: mongoose.Types.ObjectId(postId) } },
+      { $match: { _id: new mongoose.Types.ObjectId(postId) } },
     ]);
     return mapper(result, postProfile.postByIdMap);
   },

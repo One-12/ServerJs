@@ -7,10 +7,13 @@
   "extends": ["google", "prettier"],
   "globals": {
     "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
+    "SharedArrayBuffer": "readonly",
+    "require-jsdoc": false
   },
   "parserOptions": {
     "ecmaVersion": 11
   },
-  "rules": {}
+  "rules": {
+    "require-jsdoc": 0
+  }
 }

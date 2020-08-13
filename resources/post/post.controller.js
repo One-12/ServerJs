@@ -1,5 +1,5 @@
-const postService = require('./post.service');
 const faker = require('faker');
+const postService = require('./post.service');
 const httpStatusCodes = require('http-status-codes');
 
 const postController = {
@@ -14,7 +14,7 @@ const postController = {
     }
   },
 
-  getFollowingUserPosts: async (req,res) =>{
+  getFollowingUserPosts: async (req, res) => {
     try {
       const posts = await postService.getFollowingUserPosts(req);
       return res.status(httpStatusCodes.OK).json(posts);
@@ -48,55 +48,17 @@ const postController = {
     }
   },
 
-  createNewPost: async (req, res) => {
+  createPost: async (req, res) => {
     try {
-      const posts = req.body;
-      if (!posts) {
+      const createPostRequest = req.body;
+      if (!createPostRequest) {
         return res.status(httpStatusCodes.BAD_REQUEST).json({
           error: paramMissingError,
         });
       }
-      posts.userId = req.user.uid;
-      const createdPost = await postService.createPost(posts);
+      createPostRequest.userId = req.user.uid;
+      const createdPost = await postService.createPost(createPostRequest);
       return res.status(httpStatusCodes.CREATED).json(createdPost);
-    } catch (err) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({
-        error: err.message,
-      });
-    }
-  },
-
-  createFakePosts: async (req, res) => {
-    try {
-      const size = req.query.size;
-      if (size > 50) {
-        throw new Error('Maximum 50 fake can be created');
-      }
-      console.log('Creating 500 fake post in server');
-      for (let i = 0; i < size; i++) {
-        {
-          const post = {
-            content: faker.internet.avatar(),
-            title: faker.lorem.words(5),
-            commentsCount: Math.random(),
-            likesCount: Math.random(),
-            points: Math.random(),
-            postedBy: {
-              firstName: faker.internet.userName(),
-              id: faker.lorem.word(),
-              lastName: faker.internet.userName(),
-              middleName: faker.internet.userName(),
-              userName: faker.internet.userName(),
-            },
-            postedOn: faker.date.past(),
-            tags: generateTags(),
-            type: faker.internet.domainName(),
-            views: Math.random(),
-            userId: faker.internet.userName(),
-          };
-          await postService.createPost(post);
-        }
-      }
     } catch (err) {
       return res.status(httpStatusCodes.BAD_REQUEST).json({
         error: err.message,
