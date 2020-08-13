@@ -1,6 +1,6 @@
 const express = require("express");
 const templateController = require("./template.controller");
-const isAuthorized = require("../../middlewares/firebase.middleware");
+const isAuthorized = require("../../middlewares/auth.middleware");
 
 // eslint-disable-next-line new-cap
 const router = express.Router();

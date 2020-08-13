@@ -1,7 +1,7 @@
 const express = require('express');
 const postController = require('./post.controller');
 const httpStatusCodes = require('http-status-codes');
-const authorize = require('../../middlewares/firebase.middleware');
+const authorize = require('../../middlewares/auth.middleware');
 
 const router = new express.Router();
 
