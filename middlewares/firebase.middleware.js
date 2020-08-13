@@ -25,13 +25,11 @@ async function _authorizeUser(token) {
     const fireBaseUser = await fireBaseAdmin.auth().verifyIdToken(token);
 
     let applicationUser = await users.findOne({ uid: fireBaseUser.sub });
-    console.log('applicationUser');
-    console.log(applicationUser);
 
     if (!applicationUser) {
       applicationUser = await users.create({
         uid: fireBaseUser.sub,
-        email: fireBaseUser.sub,
+        email: fireBaseUser.email,
       });
     }
 
