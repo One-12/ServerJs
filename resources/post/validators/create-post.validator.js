@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const POST_TYPES = require('../constants/constants').POST_TYPES;
+const POST_TYPES = require('../constants').POST_TYPES;
 
 const validate = async (req) => {
   const createPostSchema = Joi.object().keys({
