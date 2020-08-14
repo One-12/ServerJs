@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = {
   title: { type: String, required: true },
   content: { type: String, required: true },
+  description: { type: String, required: false },
   resImages: [
     {
       size: { type: Number },

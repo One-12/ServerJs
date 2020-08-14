@@ -1,5 +1,5 @@
-const faker = require('faker');
 const postService = require('./post.service');
+const createPostValidator = require('./validators/create-post.validator');
 const httpStatusCodes = require('http-status-codes');
 
 const postController = {
@@ -50,29 +50,19 @@ const postController = {
 
   createPost: async (req, res) => {
     try {
-      const createPostRequest = req.body;
-      if (!createPostRequest) {
-        return res.status(httpStatusCodes.BAD_REQUEST).json({
-          error: paramMissingError,
-        });
+      req.body.userId = req.user.uid;
+      const [data, error] = await createPostValidator.validate(req);
+
+      if (data) {
+        const createdPost = await postService.createPost(data);
+        return res.status(httpStatusCodes.CREATED).json(createdPost);
+      } else {
+        return res.status(httpStatusCodes.BAD_REQUEST).json(error);
       }
-      createPostRequest.userId = req.user.uid;
-      const createdPost = await postService.createPost(createPostRequest);
-      return res.status(httpStatusCodes.CREATED).json(createdPost);
-    } catch (err) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({
-        error: err.message,
-      });
+    } catch (e) {
+      return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR);
     }
   },
-};
-
-generateTags = function () {
-  const tags = [];
-  for (let index = 0; index < 5; index++) {
-    tags.push(faker.random.word());
-  }
-  return tags;
 };
 
 module.exports = postController;
