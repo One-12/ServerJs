@@ -1,30 +1,16 @@
-const UploadService = require('./upload.service');
 const httpStatusCodes = require('http-status-codes');
 
-/**
- * UploadController for uploading images for Posts/ Posts Templates.
- *
- * @class UploadController
- */
-class UploadController {
-  /**
-   * Uploads images/GIFs/ videos.
-   *
-   * @param {*} req
-   * @param {*} res
-   * @memberof UploadController
-   */
-  async upload(req, res) {
-    try {
-      const uploadService = new UploadService();
-      const upload = await uploadService.uploadPost(req);
-      return res.status(httpStatusCodes.CREATED).json(upload);
-    } catch (err) {
-      return res.status(httpStatusCodes.BAD_REQUEST).json({
-        error: err.message,
-      });
-    }
-  }
-}
+const uploadService = require('./upload.service');
 
-module.exports = UploadController;
+const uploadController = {
+  upload: async (req, res) => {
+    try {
+      const uploadPost = await uploadService.upload(req);
+      return res.status(httpStatusCodes.CREATED).json(uploadPost);
+    } catch (e) {
+      return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  },
+};
+
+module.exports = uploadController;

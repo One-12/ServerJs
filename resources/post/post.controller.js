@@ -3,7 +3,7 @@ const createPostValidator = require('./validators/create-post.validator');
 const httpStatusCodes = require('http-status-codes');
 
 const postController = {
-  getPosts: async function (req, res) {
+  getPosts: async (req, res) => {
     try {
       const posts = await postService.getPosts(req);
       return res.status(httpStatusCodes.OK).json(posts);

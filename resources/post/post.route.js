@@ -1,6 +1,7 @@
 const express = require('express');
-const postController = require('./post.controller');
 const httpStatusCodes = require('http-status-codes');
+
+const postController = require('./post.controller');
 const authorize = require('../../middlewares/auth/auth.middleware');
 
 const router = new express.Router();
