@@ -1,6 +1,6 @@
 const express = require("express");
 const userController = require("./user.controller");
-const isAuthorized = require("../../middlewares/auth.middleware");
+const isAuthorized = require("../../middlewares/auth/auth.middleware");
 
 // eslint-disable-next-line new-cap
 const router = express.Router();

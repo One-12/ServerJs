@@ -1,7 +1,7 @@
 const fireBaseAdmin = require('firebase-admin');
 const httpStatusCodes = require('http-status-codes');
 
-const users = require('../resources/user/user.entity');
+const users = require('../../resources/user/user.entity');
 
 const authorize = async (req, res, next) => {
   const token = _getTokenFromHeader(req);
