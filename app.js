@@ -1,18 +1,20 @@
-let createError = require('http-errors');
-let express = require('express');
-let cors = require('cors');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
-let connection = require('./connection');
-let swaggerOptions = require('./swagger.option');
-let fileUpload = require('express-fileupload');
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const swaggerOptions = require('./swagger.option');
+const fileUpload = require('express-fileupload');
+const compression = require('compression');
 
-let tagRouter = require('./resources/tag/tag.route');
-let postRouter = require('./resources/post/post.route');
-let likeRouter = require('./resources/like/like.route');
-let commentRouter = require('./resources/comment/comment.route');
-let userRouter = require('./resources/user/user.route');
-let uploadRouter = require('./resources/upload/upload.route');
+require('./connection');
+
+const tagRouter = require('./resources/tag/tag.route');
+const postRouter = require('./resources/post/post.route');
+const likeRouter = require('./resources/like/like.route');
+const commentRouter = require('./resources/comment/comment.route');
+const userRouter = require('./resources/user/user.route');
+const uploadRouter = require('./resources/upload/upload.route');
+const templateRouter = require('./resources/template/template.route');
 
 const admin = require('firebase-admin');
 
@@ -22,11 +24,12 @@ admin.initializeApp({
   databaseURL: 'https://one-12-dev-1588433721353.firebaseio.com',
 });
 
-let app = express();
+const app = express();
 
 const expressSwagger = require('express-swagger-generator')(app);
 
 app.use(cors());
+app.use(compression());
 app.use(logger('dev'));
 app.use(fileUpload());
 app.use(express.json());
@@ -39,6 +42,7 @@ app.use('/api/comments', commentRouter);
 app.use('/api/likes', likeRouter);
 app.use('/api/users', userRouter);
 app.use('/api/upload', uploadRouter);
+app.use('/api/templates', templateRouter);
 
 expressSwagger(swaggerOptions);
 module.exports = app;

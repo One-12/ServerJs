@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var tagSchema = {
+const tagSchema = {
   name: { type: String, required: true, lowercase: true, unique: true }
 };
 

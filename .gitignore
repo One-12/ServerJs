@@ -1,6 +1,7 @@
 # IDE
 .DS_Store
 .idea
+.vscode
 
 # Logs
 logs

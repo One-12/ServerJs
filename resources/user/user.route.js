@@ -1,8 +1,9 @@
-var express = require("express");
-var userController = require("./user.controller");
-var isAuthorized = require("../../middlewares/firebase.middleware");
+const express = require("express");
+const userController = require("./user.controller");
+const isAuthorized = require("../../middlewares/auth/auth.middleware");
 
-var router = express.Router();
+// eslint-disable-next-line new-cap
+const router = express.Router();
 
 /**
  * @route POST /users Follow or Un-follow user.

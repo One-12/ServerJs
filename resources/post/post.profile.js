@@ -10,6 +10,8 @@ const postProfile = {
     title: "title",
     postedOn: "postedOn",
     type: "type",
+    "resImages[].size":"resImages[].size",
+    "resImages[].content":"resImages[].content",
     "comments[]._id": "comments[].id",
     "comments[].postId": "comments[].postId",
     "comments[].content": "comments[].content",
@@ -29,7 +31,9 @@ const postProfile = {
     "[].content": "[].content",
     "[].title": "[].title",
     "[].postedOn": "[].postedOn",
-    "[].type": "[].type"
+    "[].type": "[].type",
+    "[].postedBy.uid": "[].postedBy.userId",
+    "[].postedBy.email": "[].postedBy.email",
   }
 };
 

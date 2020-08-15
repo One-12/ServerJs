@@ -1,5 +1,5 @@
-var commentService = require("./comment.service");
-var httpStatusCodes = require("http-status-codes");
+const commentService = require("./comment.service");
+const httpStatusCodes = require("http-status-codes");
 
 const commentsController = {
   getCommentsForPost: async (req, res) => {
