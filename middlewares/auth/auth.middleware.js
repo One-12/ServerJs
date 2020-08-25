@@ -20,7 +20,7 @@ const authorize = async (req, res, next) => {
   });
 };
 
-_authorizeUser = async(token) => {
+const _authorizeUser = async(token) => {
   try {
     const fireBaseUser = await fireBaseAdmin.auth().verifyIdToken(token);
 
@@ -41,7 +41,7 @@ _authorizeUser = async(token) => {
   }
 }
 
-_getTokenFromHeader = (req) => {
+const _getTokenFromHeader = (req) => {
   if (req.headers.authorization) {
     const authorization = req.headers.authorization.split(' ')[0];
     return authorization ? req.headers.authorization.split(' ')[1] : null;

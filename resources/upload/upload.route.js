@@ -4,6 +4,8 @@ const authorize = require('../../middlewares/auth/auth.middleware');
 
 const router = new express.Router();
 
-router.post('/', authorize, uploadController.upload);
+router.post('/image', authorize, uploadController.uploadImage);
+
+router.post('/video', uploadController.uploadVideo);
 
 module.exports = router;
