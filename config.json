@@ -7,5 +7,8 @@
   },
   "mongo": {
     "uri": "mongodb://one12-dev:AECXbe7SQitSs8eovoeWkax5fbfCd33UuCUj80KAJE4gy7XLxHjEl3lzzOA0xUFeCyeb3Mi2VBXlqYGkmcXG3Q==@one12-dev.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@one12-dev@"
+  },
+  "insights": {
+    "key": "266f2b67-3832-4008-97f0-5e150fe91b85"
   }
 }

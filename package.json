@@ -25,7 +25,10 @@
     "mongoose": "^5.9.28",
     "morgan": "~1.10.0",
     "object-mapper": "^6.2.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "applicationinsights": "^1.8.5",
+    "winston": "^3.3.3",
+    "winston-azure-application-insights": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

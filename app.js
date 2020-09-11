@@ -2,9 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const insightKey = require('./config.json').insights.key;
 const swaggerOptions = require('./swagger.option');
 const fileUpload = require('express-fileupload');
 const compression = require('compression');
+
+
+const { AzureApplicationInsightsLogger } = require('winston-azure-application-insights');
+
+winston.add(new AzureApplicationInsightsLogger({
+    key: insightKey
+}));
 
 require('./connection');
 
@@ -27,6 +35,7 @@ admin.initializeApp({
 const app = express();
 
 const expressSwagger = require('express-swagger-generator')(app);
+
 
 app.use(cors());
 app.use(compression());
