@@ -2,7 +2,7 @@ const tagEntity = require('./tag.entity');
 
 const tagService = {
   getTrendingTags: async function () {
-    const tags = await tagEntity.find({}).limit(10);
+    const tags = await tagEntity.find({}).sort({ hitCount: -1 }).limit(10);
     return tags;
   },
 
