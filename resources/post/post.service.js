@@ -42,8 +42,8 @@ const postService = {
 
   createPost: async function (postRequest) {
     const createdPost = await postSchema.create(postRequest);
-    pushTags(postRequest);
-    pushImageResize(createdPost);
+    await pushTags(postRequest);
+    await pushImageResize(createdPost);
     return createdPost;
   },
 
@@ -52,17 +52,18 @@ const postService = {
   },
 };
 
-pushTags = function (postRequest) {
+pushTags = async (postRequest) => {
   const tags = postRequest.tags;
+  const userId = postRequest.userId;
   if (tags && tags.length > 0) {
-    queueService.produce(config.job.tagPool, tags);
+    await queueService.produce(config.job.tagPool, { tags: tags, userId: userId });
   }
 };
 
-pushImageResize = function (postRequest) {
+pushImageResize = async (postRequest) => {
   const postContent = postRequest.content;
   if (postContent && postContent.length > 0) {
-    queueService.produce(config.job.uploadPool, { postId: postRequest._id });
+    await queueService.produce(config.job.uploadPool, { postId: postRequest._id });
   }
 };
 

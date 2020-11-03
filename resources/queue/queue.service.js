@@ -1,11 +1,12 @@
 const bull = require('bull');
 const config = require('../../config.json');
 
-exports.produce = function (queueName, data) {
-  bull(queueName, {
+exports.produce = async (queueName, data) => {
+  const queue = bull(queueName, {
     redis: {
       port: config.job.port,
       host: config.job.host,
     },
-  }).add(data);
+  });
+  await queue.add(data);
 };
