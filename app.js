@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const winston = require('winston');
 const insightKey = require('./config.json').insights.key;
 const swaggerOptions = require('./swagger.option');
 const fileUpload = require('express-fileupload');
