@@ -10,6 +10,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.1.2",
     "@hapi/joi": "^17.1.1",
+    "applicationinsights": "^1.8.5",
     "bull": "^3.17.0",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.5",
@@ -26,7 +27,6 @@
     "morgan": "~1.10.0",
     "object-mapper": "^6.2.0",
     "shortid": "^2.2.15",
-    "applicationinsights": "^1.8.5",
     "winston": "^3.3.3",
     "winston-azure-application-insights": "^2.0.0"
   },
