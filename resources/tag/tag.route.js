@@ -12,11 +12,6 @@ const router = express.Router();
  */
 router.get('/', tagController.getTrendingTags);
 
-
-/**
- * @typedef Tag
- * @property {string} name.required - tag name to create
- */
 /**
  * @route POST /tags Create tag.
  * @group Tags - Operations about Tags

@@ -35,7 +35,7 @@ const postService = {
     return mapper(result, postProfile.postByIdMap);
   },
 
-  getPostByIds: async function (postIds) {
+  getPostsByIds: async function(postIds) {
     const posts = await postSchema.find({ _id: { $in: postIds } });
     return mapper(posts, postProfile.posts);
   },

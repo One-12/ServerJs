@@ -1,6 +1,6 @@
 const postService = require('./post.service');
-const createPostValidator = require('./validators/create-post.validator');
 const httpStatusCodes = require('http-status-codes');
+const createPostValidator = require('./validators/create-post.validator');
 
 const postController = {
   getPosts: async (req, res) => {

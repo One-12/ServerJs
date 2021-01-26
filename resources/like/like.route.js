@@ -5,12 +5,6 @@ const likeController = require('./like.controller');
 const router = express.Router();
 
 /**
- * @typedef LikeRequest
- * @property {string} id.required - comment id
- * @property {string} parentId - required incase of liking the reply
- */
-
-/**
  * Like an entity.
  * @route PATCH /likes like an entity.
  * @group Likes - Operations about Likes
